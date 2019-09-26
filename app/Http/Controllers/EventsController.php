@@ -17,7 +17,7 @@ class EventsController extends Controller
     {
         $events = $service
             ->ascendingDate()
-            ->get();
+            ->paginate();
 
         return view('event.create', compact('events'));
     }

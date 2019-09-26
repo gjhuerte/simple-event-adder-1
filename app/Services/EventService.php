@@ -42,6 +42,16 @@ class EventService
     }
 
     /**
+     * Fetch all the events on certain date
+     *
+     * @return mixed
+     */
+    public function paginate($count = 10)
+    {
+        return $this->model->paginate($count);
+    }
+
+    /**
      * Create a new event
      *
      * @param array $attributes
