@@ -11,6 +11,10 @@
 |
 */
 
+Route::resource('event', 'EventsController', [
+    'only' => array('create', 'store'),
+]);
+
 Route::get('/', function () {
     return view('welcome');
 });
