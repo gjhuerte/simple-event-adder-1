@@ -65,13 +65,17 @@ class EventService
         $start = Carbon::parse($attributes['from_date']);
         $end = Carbon::parse($attributes['to_date']);
         $periods = CarbonPeriod::create($start, $end);
+        $lowerCasedStartDay = strtolower($start->format('l'));
+        $lowerCasedEndDay = strtolower($end->format('l'));
 
-        $events[] = [
-            'name' => $name,
-            'occurred_at' => $start,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ];
+        if (! in_array($lowerCasedStartDay, $days)) {
+            $events[] = [
+                'name' => $name,
+                'occurred_at' => $start,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+        }
 
         foreach($periods as $period) {
             switch($period->dayOfWeek) {
@@ -155,12 +159,14 @@ class EventService
             }
         }
 
-        $events[] = [
-            'name' => $name,
-            'occurred_at' => $end,
-            'created_at' => Carbon::now(),
-            'updated_at' => Carbon::now(),
-        ];
+        if (! in_array($lowerCasedEndDay, $days)) {
+            $events[] = [
+                'name' => $name,
+                'occurred_at' => $end,
+                'created_at' => Carbon::now(),
+                'updated_at' => Carbon::now(),
+            ];
+        }
 
         Event::insert($events);
     }

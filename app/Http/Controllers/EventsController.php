@@ -2,9 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\EventRequests\EventStoreRequest;
-use App\Services\EventService;
 use Illuminate\Http\Request;
+use App\Http\Enums\DaysEnum;
+use App\Services\EventService;
+use App\Http\Requests\EventRequests\EventStoreRequest;
 
 class EventsController extends Controller
 {
@@ -15,11 +16,15 @@ class EventsController extends Controller
      */
     public function create(Request $request, EventService $service)
     {
+        $days = DaysEnum::getDays();
         $events = $service
             ->ascendingDate()
             ->paginate();
 
-        return view('event.create', compact('events'));
+        return view('event.create', compact(
+            'events',
+            'days'
+        ));
     }
 
     /**

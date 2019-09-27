@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests\EventRequests;
 
+use App\Http\Enums\DaysEnum;
 use Illuminate\Foundation\Http\FormRequest;
 
 class EventStoreRequest extends FormRequest
@@ -23,12 +24,27 @@ class EventStoreRequest extends FormRequest
      */
     public function rules()
     {
+        $days = implode(',', DaysEnum::getDays());
+
         return [
             'name' => 'required|between:1,100|string',
             'from_date' => 'required|date',
             'to_date' => 'required|date|after:from_date',
             'days' => 'required|array',
-            'days.*' => 'in:monday,tuesday,wednesday,thursday,friday,saturday,sunday',
+            'days.*' => "bail|in:$days",
+        ];
+    }
+
+    /**
+     * Get custom attributes for validator errors.
+     *
+     * @return array
+     */
+    public function attributes()
+    {
+        return [
+            'from_date' => 'Starting Date',
+            'to_date' => 'Ending Date',
         ];
     }
 }

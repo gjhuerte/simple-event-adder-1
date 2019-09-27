@@ -13,7 +13,7 @@
         <script src="{{ secure_asset('js/app.js') }}"></script>
     </head>
     <body>
-        <div class="flex-center position-ref full-height">
+        <div class="bg-dark flex-center position-ref full-height">
             @include('layouts.navbar')
 
             <div 
